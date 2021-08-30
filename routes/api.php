@@ -23,5 +23,5 @@ Route::post("login",[LoginController::class,'Login']);
 Route::post("CheckPhoneAvailablity",[OnboardingController::class,'CheckPhoneAvailablity']);
 Route::post("CheckEmailAvailablity",[OnboardingController::class,'CheckEmailAvailablity']);
 Route::group(['middleware' => ['jwt.verify']], function() {
-Route::post('ViewUser',[OnboardingController::class,'ViewUser']);
+Route::post('GetUserDetail',[OnboardingController::class,'GetUserDetail']);
 });

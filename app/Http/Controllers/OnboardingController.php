@@ -23,7 +23,10 @@ class OnboardingController extends Controller
 			'password' => 'required|string|max:40',
 				]);
 			if($validator->fails()){
-			return response()->json($validator->errors());
+			return response()->json(['status' => false,
+			'message'=> 'validation error',
+			'data' => null, 
+			'validation_errors'=> $validator->errors()]);
 				}
 				
 				DB::beginTransaction();
@@ -73,7 +76,10 @@ class OnboardingController extends Controller
 				]);
 			if($validator->fails())
 			  {
-			return response()->json($validator->errors());
+				return response()->json(['status' => false,
+				'message'=> 'validation error',
+				'data' => null, 
+				'validation_errors'=> $validator->errors()]);
 			  }
 				
 				$profile=new profile;
@@ -110,7 +116,10 @@ class OnboardingController extends Controller
 				'email' => 'required|string|email|max:255',
 					]);
 			if($validator->fails()){
-			return response()->json($validator->errors());
+					return response()->json(['status' => false,
+					'message'=> 'validation error',
+					'data' => null,
+					'validation_errors'=> $validator->errors()]);
 				}
 		{
 			$isEmailAvailable = $this->isEmailAvailable($req['email']);
@@ -134,7 +143,10 @@ class OnboardingController extends Controller
 				'phone' => 'required|max:12',
 					]);
 			if($validator->fails()){
-			return response()->json($validator->errors());
+					return response()->json(['status' => false, 
+					'message'=> 'validation error', 
+					'data' => null, 
+					'validation_errors'=> $validator->errors()]);
 				}
 		{
 			if($this->isPhoneAvailable($req['phone']))
@@ -179,7 +191,7 @@ class OnboardingController extends Controller
 				
 			}
 		 
-		function ViewUser(Request $req)
+		function GetUserDetail(Request $req)
             {
                 try 
 				   {
