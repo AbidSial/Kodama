@@ -19,19 +19,19 @@ class LoginController extends Controller
 			{
 				return response()->json([
 				'message' =>'Invalid_Credentials',
-				'status' =>'false']);
+				'status' =>false]);
 			}
 		}
 		Catch (JWTException $e)
 		{
 			return response()->json([
 			'message' => 'Could not create token',
-			'status'=>'false']);
+			'status'=>false]);
 		}
 		 $data= User::where('email', $req->email)->first();
 				return response()->json([
 				'message'=> 'User Login',
-				'status' =>  'true',
+				'status' =>  true,
 				'data'   => $data,
 				'access_token' => compact('token')
 				]);

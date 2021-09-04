@@ -82,7 +82,7 @@ class OnboardingController extends Controller
 				'validation_errors'=> $validator->errors()]);
 			  }
 				
-				$profile=new profile;
+				$profile=new Profile;
 				if($req->hasFile('profile_image'))
 				{
 					$data=$req->file('profile_image')->store('Images');
@@ -102,7 +102,9 @@ class OnboardingController extends Controller
 		$result=$profile->save();
 		if($result)
 		    {
+				
 			return $profile;
+			
 		    }
 		else
 			{
@@ -126,14 +128,14 @@ class OnboardingController extends Controller
 			if($isEmailAvailable)
 			{
 				return response()->json([
-				'status' => 'true',
-				'message'=> 'Email_Available']);
+				'status' => true,
+				'message'=> 'Email Available']);
 			}
 			else
 			{
 				return response()->json([
-				'status' => 'false',
-				'message'=> 'Email_not_Available']);
+				'status' => false,
+				'message'=> 'Email not Available']);
 			}
 		}
 }
@@ -152,14 +154,14 @@ class OnboardingController extends Controller
 			if($this->isPhoneAvailable($req['phone']))
 			{
 			return response()->json([
-			'status' => 'true',
-			'message'=> 'Phone_Available']);
+			'status' => true,
+			'message'=> 'Phone Available']);
 			}
 			else
 			{
 				return response()->json([
-				'status' => 'false',
-				'message'=> 'Phone_not_Available']);
+				'status' => false,
+				'message'=> 'Phone not Available']);
 			}
 		}
 }	  

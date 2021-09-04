@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUsersTableAddPhoneNo extends Migration
+class UpdateFcmtokenTableProfile extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class UpdateUsersTableAddPhoneNo extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('phone');
-			
-        });
+        //
+		Schema::table('profiles', function($table) {
+         $table->renamecolumn('fcmtoken','fcm_token');
+    });
     }
 
     /**
@@ -26,9 +26,9 @@ class UpdateUsersTableAddPhoneNo extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('name');
-			$table->dropColumn('phone');
-        });
-    }
+        //
+		Schema::table('profiles', function($table) {
+         $table->renamecolumn('fcm_token','fcmtoken');
+    });
+}
 }

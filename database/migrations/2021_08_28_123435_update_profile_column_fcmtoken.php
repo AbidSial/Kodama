@@ -15,7 +15,7 @@ class UpdateProfileColumnFcmtoken extends Migration
     {
         //
 		Schema::table('profiles', function($table) {
-        $table->string('fcmtoken')->unsigned()->nullable()->change();
+        $table->string('fcm_token')->unsigned()->nullable()->change();
     });
     }
 
@@ -28,7 +28,7 @@ class UpdateProfileColumnFcmtoken extends Migration
     {
         //
 		Schema::table('profiles', function($table) {
-         $table->string('fcmtoken')->unsigned()->nullable(false)->change();
+         $table->string('fcm_token')->unsigned()->nullable(false)->change();
     });
     }
 }

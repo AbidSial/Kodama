@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUsersTableAddPhoneNo extends Migration
+class UpdateExperienceAddfeature extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class UpdateUsersTableAddPhoneNo extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('phone');
-			
-        });
+        //
+	 Schema::table('experiences', function($table) {
+          $table->boolean('isFeature')->default(false);
+      });
     }
 
     /**
@@ -26,9 +26,6 @@ class UpdateUsersTableAddPhoneNo extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('name');
-			$table->dropColumn('phone');
-        });
+        //
     }
 }
