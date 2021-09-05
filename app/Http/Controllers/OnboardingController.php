@@ -33,6 +33,7 @@ class OnboardingController extends Controller
 		$user=new User;
 		$user->phone=$req->phone;
 		$user->email=$req->email;
+		$user->role=$req->role;
 		$user->password=Hash::make($req->password);
 		$result=$user->save();
 		$token = JWTAuth::fromUser($user);
@@ -205,7 +206,7 @@ class OnboardingController extends Controller
 							'message' => 'user is not found',
                            ]);							
                             }
-							} 
+				   } 
 					catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e)
 					{
 					return response()->json([
@@ -222,20 +223,27 @@ class OnboardingController extends Controller
 						]);
                     } 
 					catch (Tymon\JWTAuth\Exceptions\JWTException $e)
-					{
+					 {
 
-                      return response()->json([
-							'status' => false,
-							'message' => 'token is absent',
+                    return response()->json([
+						   'status' => false,
+						   'message' => 'token is absent',
 						]);      
 
-                    }
-					return response()->json([
-					'status' => true,
-					'data' =>$user]);
-		    }
+                     }
+				$users = User::all();
+						
+				    foreach($users as $ur) {
+						$userid = $ur->id;
+						$profile = Profile::where('user_id', $userid)->get();
+						$ur["profile"] = $profile;
+					}
+					
+				      return response()->json([
+					       'status' => true,
+					       'data' =>$users]);
+					}
 }
-
 			
 			
 			

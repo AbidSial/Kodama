@@ -6,6 +6,8 @@ use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\Homecontroller;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,13 +24,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::post("register",[OnboardingController::class,'Register']);
 Route::post("login",[LoginController::class,'Login']);
-Route::post("home_experiences",[homecontroller::class,'homeExperiences']);
-Route::post("addlocation",[DataController::class,'AddLocation']);
+Route::post("addlocation",[LocationController::class,'AddLocation']);
 Route::post("addexperience",[DataController::class,'AddExperience']);
 Route::post("checkphoneavailablity",[OnboardingController::class,'CheckPhoneAvailablity']);
 Route::post("checkemailavailablity",[OnboardingController::class,'CheckEmailAvailablity']);
 Route::group(['middleware' => ['jwt.verify']], function() {
 Route::post('getuserdetail',[OnboardingController::class,'GetUserDetail']);
-Route::post('getlist',[DataController::class,'getlist']);
-//Route::post("viewfeature",[homecontroller::class,'feature']);
+Route::post('getexperiencelist',[DataController::class,'getexperiencelist']);
+Route::post('getlocation',[LocationController::class,'getLocation']);
+Route::post('makefeatured',[UserController::class,'makeFeatured']);
+Route::post("home_experiences",[homecontroller::class,'homeExperiences']);
+Route::post("search_user",[UserController::class,'searchUser']);
+Route::post("getexperiencedetail",[UserController::class,'getExperienceDetail']);
 });
