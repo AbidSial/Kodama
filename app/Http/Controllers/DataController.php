@@ -166,7 +166,7 @@
 				}
 				return response()->json([
 						'status' => true,
-						'message'=>'Experience Searched'
+						'message'=>'Experience Searched',
 						'data' =>$experiences]);
 			}
 		

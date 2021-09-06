@@ -65,7 +65,7 @@ class OnboardingController extends Controller
 				return response()->json([
 					'message' => 'User registered',
 					'status' => false,
-					'data'=> null
+					'data'=> null,
 					
 			]);
 			}
@@ -133,14 +133,14 @@ class OnboardingController extends Controller
 			{
 				return response()->json([
 				'status' => true,
-				'message'=> 'Email Available'
+				'message'=> 'Email Available',
 				'data' =>null, ]);
 			}
 			else
 			{
 				return response()->json([
 				'status' => false,
-				'message'=> 'Email not Available'
+				'message'=> 'Email not Available',
 				'data' => null,]);
 			}
 		}
@@ -161,14 +161,14 @@ class OnboardingController extends Controller
 			{
 			return response()->json([
 			'status' => true,
-			'message'=> 'Phone Available'
+			'message'=> 'Phone Available',
 			'data' => null,]);
 			}
 			else
 			{
 				return response()->json([
 				'status' => false,
-				'message'=> 'Phone not Available'
+				'message'=> 'Phone not Available',
 				'data' => null,]);
 			}
 		}

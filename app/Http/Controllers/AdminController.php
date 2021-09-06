@@ -98,7 +98,7 @@ class UserController extends Controller
 		    
                     return response()->json([
 						   'status' => true,
-						   'message' =>'User Searched'
+						   'message' =>'User Searched',
 						   'data' => $users,
 						]);
 					 
