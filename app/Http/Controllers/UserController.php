@@ -22,6 +22,7 @@ class UserController extends Controller
 						
 			$validator = Validator::make($req->all(), [
 			'off_set' => 'required',
+			//'user_type'=>'required',
 				]);
 			if($validator->fails()){
 			return response()->json(['status' => false,
@@ -32,33 +33,41 @@ class UserController extends Controller
 				
 				$user = Auth::user();
 				$email = $user->email;
+				
 				if($email != 'admin@kodamaapp.com'){
 					return response()->json([
-						   'status' => false,
-						   'message' => 'Only admin is authorized to perform this action',
-						   'data' => null,
-						]);
+						'status' => false,
+						'message' => 'Only admin is authorized to perform this action',
+						'data' => null,
+					]);
 				}
 				$Rows_To_Fetch = 10;
 				$off_set = $req->off_set;
 				$off_set = $off_set * $Rows_To_Fetch;
-                
-					 $term = '';
-					 $users=DB::table('users')
-						->join('profiles', function ($join) {
-						$join->on('users.id', '=', 'profiles.user_id');
+                $role = "Customer";
+				
+				if($req->has('role')){
+					$role = $req->role;
+				}
+				$term = '';
+				
+				$users=DB::table('users')
+					->join('profiles', function ($join) {
+					$join->on('users.id', '=', 'profiles.user_id');
 						
-					})
+				})->where('users.role', $role)
 					->select('users.id', 'users.email'
 						, 'profiles.full_name', 'profiles.image_url')
 					->skip($off_set)->take($Rows_To_Fetch)
 					->get();
+					
 			if($req->has('term')){
 				$term = $req->term;
 				$users=DB::table('users')
 				->join('profiles', function ($join) use($term) {
 				$join->on('users.id', '=', 'profiles.user_id')
 				->where('profiles.full_name', 'like', "%$term%")
+				->where('users.role', $role)
 				->select('users.id, users.email, users.phone', 
 				'profiles.full_name, profiles.street_address, profiles.business_name, profiles.image_url, profiles.reservation_website, profiles.profile_bio');
 				})
@@ -66,15 +75,13 @@ class UserController extends Controller
 						, 'profiles.full_name', 'profiles.image_url')
 				->skip($off_set)->take($Rows_To_Fetch)->get();
 			}
-					 //$users=User::skip($off_set)->take($Rows_To_Fetch)->get();
+			
 					 
-					 
-					 
-		    
-                    return response()->json([
-						   'status' => true,
-						   'data' => $users,
-						]);
+			return response()->json([
+				'status' => true,
+				'message' =>' User Searched',
+				'data' => $users,
+			]);
 					 
 	}
 	
@@ -108,6 +115,7 @@ class UserController extends Controller
 					
 				      return response()->json([
 					       'status' => true,
+						   'message' => 'Featured don',
 					       'data' =>$experiences]);
 					}
         	
@@ -142,6 +150,7 @@ class UserController extends Controller
 					
 				          return response()->json([
 					         'status' => true,
+							 'message'=> 'Obtained Experience Detail',
 					         'data' =>$experiences]);
 			}
 					

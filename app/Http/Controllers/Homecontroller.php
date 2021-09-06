@@ -16,7 +16,7 @@ class Homecontroller extends Controller
 		$nearby_experiences = $this->getNearbyItems();
 		 return response()->json(['status'=>true,
 		'message'=>"List obtained",
-		['featured_experiences'=> $featured_experiences, "nearby_experiences"=> $nearby_experiences]
+		'data' => ['featured_experiences'=> $featured_experiences, "nearby_experiences"=> $nearby_experiences]
 		]);
 	}
 			

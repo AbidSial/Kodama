@@ -38,6 +38,7 @@ class UserController extends Controller
                           return response()->json([
 							'status' => false,
 							'message' => 'user is not found',
+							'data'    =>null,
                            ]);							
                             }
 				   } 
@@ -46,6 +47,7 @@ class UserController extends Controller
 					return response()->json([
 							'status' => false,
 							'message' => 'token is expired',
+							'data' =>null
                           ]); 
 
                     }
@@ -54,6 +56,7 @@ class UserController extends Controller
 						return response()->json([
 							'status' => false,
 							'message' => 'token is invalid',
+							'data'=>null,
 						]);
                     } 
 					catch (Tymon\JWTAuth\Exceptions\JWTException $e)
@@ -61,6 +64,7 @@ class UserController extends Controller
 						return response()->json([
 							'status' => false,
 							'message' => 'token is invalid',
+							'data' =>null,
 						]);
 
                      }
@@ -79,7 +83,7 @@ class UserController extends Controller
 				$users=DB::table('users')
 				->join('profiles', function ($join) use($term) {
 				$join->on('users.id', '=', 'profiles.user_id')
-				->where('profiles.full_name', 'like', '%$term%')
+				->where('profiles.full_name', 'like', "%$term%")
 				->select('users.id, users.email, users.phone', 
 				'profiles.full_name, profiles.street_address, profiles.business_name, profiles.image_url, profiles.reservation_website, profiles.profile_bio');
 				})
@@ -94,6 +98,7 @@ class UserController extends Controller
 		    
                     return response()->json([
 						   'status' => true,
+						   'message' =>'User Searched'
 						   'data' => $users,
 						]);
 					 

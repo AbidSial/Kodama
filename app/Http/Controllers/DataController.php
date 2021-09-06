@@ -151,7 +151,7 @@
 					$term = $req->term;
 					$experiences=Experience
 					::where('experiences.item_title', 'like', "%$term%")
-					->orWhere('experiences.item_description', 'like', '%term%')
+					->orWhere('experiences.item_description', 'like', "%term%")
 					->select('experiences.id', 'experiences.item_title',
 					'experiences.item_price','experiences.price_category'
 					,'experiences.isFeature')
@@ -166,6 +166,7 @@
 				}
 				return response()->json([
 						'status' => true,
+						'message'=>'Experience Searched'
 						'data' =>$experiences]);
 			}
 		
