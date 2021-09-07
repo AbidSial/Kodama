@@ -104,9 +104,9 @@ class UserController extends Controller
 			        'message'=> 'Only admin can perform this action',
 			        'data' => null,]);
 				 }
-				
-			 $experiences = experience::where('id', $req->id)->get();
-						
+				 
+			 $experience = experience::where('id', $req->id)->update(['isFeature'=>true]);
+			 $experiences= experience::where('id',$req->id)->get();			
 				    foreach($experiences as $ex) {
 						$exid = $ex->id;
 						$images = Listing_Image::where('listing_id', $exid)->get();
