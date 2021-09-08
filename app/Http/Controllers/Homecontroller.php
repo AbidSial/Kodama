@@ -16,7 +16,7 @@ class Homecontroller extends Controller
 		$nearby_experiences = $this->getNearbyItems();
 		 return response()->json(['status'=>true,
 		'message'=>"List obtained",
-		'data' => ['featured_experiences'=> $featured_experiences, "nearby_experiences"=> $nearby_experiences]
+		'data' =>['featured_experiences'=> $featured_experiences, "nearby_experiences"=> $nearby_experiences]
 		]);
 	}
 			
@@ -26,6 +26,8 @@ class Homecontroller extends Controller
 			 foreach($experiences as $ex) {
 				$exid = $ex->id;
 				$images = Listing_Image::where('listing_id', $exid)->get();
+				$loc = UserController::getLiteLocation($ex->location_id);
+				$ex->location = $loc;
 				$ex["images"] = $images;
 			 }
 			 return $experiences;
@@ -37,6 +39,8 @@ class Homecontroller extends Controller
 			foreach($experiences as $ex) {
 				$exid = $ex->id;
 				$images = Listing_Image::where('listing_id', $exid)->get();
+				$loc = UserController::getLiteLocation($ex->location_id);
+				$ex->location = $loc;
 				$ex["images"] = $images;
 			}
 			return $experiences;

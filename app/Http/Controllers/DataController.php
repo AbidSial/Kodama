@@ -46,7 +46,7 @@
 		   }
 		   else
 		   {
-			   $list=$experience["images"] = $response;
+			   $experience["images"] = $response;
 			   DB::commit();
 				return response()->json(['status' => true,
 			   'message'=> 'experience  saved',
@@ -142,7 +142,7 @@
 				$term = '';
 				
 				$experiences=Experience
-					::select('experiences.id', 'experiences.item_title',
+					::select('experiences.id', 'experiences.location_id', 'experiences.item_title',
 					'experiences.item_price','experiences.price_category'
 					,'experiences.isFeature')
 					->skip($off_set)->take($Rows_To_Fetch)->get();
@@ -151,8 +151,8 @@
 					$term = $req->term;
 					$experiences=Experience
 					::where('experiences.item_title', 'like', "%$term%")
-					->orWhere('experiences.item_description', 'like', "%term%")
-					->select('experiences.id', 'experiences.item_title',
+					->orWhere('experiences.item_description', 'like', '%term%')
+					->select('experiences.id', 'experiences.location_id', 'experiences.item_title',
 					'experiences.item_price','experiences.price_category'
 					,'experiences.isFeature')
 					->skip($off_set)->take($Rows_To_Fetch)->get();
@@ -163,10 +163,13 @@
 					$images = Listing_Image
 					::where('listing_id', '=', $eid)->get();
 					$exp->images = $images;
+					$locid = $exp->location_id;
+					$liteLocation = UserController::getLiteLocation($locid);
+					$exp->location = $liteLocation;
 				}
 				return response()->json([
 						'status' => true,
-						'message'=>'Experience Searched',
+						'message' => 'List obtained',
 						'data' =>$experiences]);
 			}
 		

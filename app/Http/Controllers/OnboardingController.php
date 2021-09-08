@@ -65,7 +65,6 @@ class OnboardingController extends Controller
 				return response()->json([
 					'message' => 'User registered',
 					'status' => false,
-					'data'=> null,
 					
 			]);
 			}
@@ -91,6 +90,7 @@ class OnboardingController extends Controller
 				{
 					$data=$req->file('profile_image')->store('Images');
 					$profile->image_url = $data;
+					
 				}
 				else
 				{
@@ -133,15 +133,13 @@ class OnboardingController extends Controller
 			{
 				return response()->json([
 				'status' => true,
-				'message'=> 'Email Available',
-				'data' =>null, ]);
+				'message'=> 'Email Available']);
 			}
 			else
 			{
 				return response()->json([
 				'status' => false,
-				'message'=> 'Email not Available',
-				'data' => null,]);
+				'message'=> 'Email not Available']);
 			}
 		}
 }
@@ -161,15 +159,13 @@ class OnboardingController extends Controller
 			{
 			return response()->json([
 			'status' => true,
-			'message'=> 'Phone Available',
-			'data' => null,]);
+			'message'=> 'Phone Available']);
 			}
 			else
 			{
 				return response()->json([
 				'status' => false,
-				'message'=> 'Phone not Available',
-				'data' => null,]);
+				'message'=> 'Phone not Available']);
 			}
 		}
 }	  
@@ -203,20 +199,6 @@ class OnboardingController extends Controller
 		 
 		function GetUserDetail(Request $req)
             {
-				$validator= Validator::make($req->all(),[
-				'off_set' => 'required']);
-				if($validator->fails())
-				{
-				 return response()->json([
-				  'status' => false,
-				  'message'=> 'validator_error',
-				  'data'   => null,
-				  'Validation_error' => $validator->errors()
-			       ]);
-				}
-				$Row_To_Fetch = 10;
-				$off_set= $req->off_set;
-				$off_set=$off_set * $Row_To_Fetch;
                 try 
 				   {
 
@@ -225,7 +207,6 @@ class OnboardingController extends Controller
                           return response()->json([
 							'status' => false,
 							'message' => 'user is not found',
-							'data' => null,
                            ]);							
                             }
 				   } 
@@ -234,7 +215,6 @@ class OnboardingController extends Controller
 					return response()->json([
 							'status' => false,
 							'message' => 'token is expired',
-							'data' => null,
                           ]); 
 
                     }
@@ -243,7 +223,6 @@ class OnboardingController extends Controller
 						return response()->json([
 							'status' => false,
 							'message' => 'token is invalid',
-							'data' => null,
 						]);
                     } 
 					catch (Tymon\JWTAuth\Exceptions\JWTException $e)
@@ -252,11 +231,10 @@ class OnboardingController extends Controller
                     return response()->json([
 						   'status' => false,
 						   'message' => 'token is absent',
-						   'data'=> null,
 						]);      
 
                      }
-				$users = User::skip($off_set)->take($Row_To_Fetch)->get();
+				$users = User::all();
 						
 				    foreach($users as $ur) {
 						$userid = $ur->id;
@@ -266,7 +244,6 @@ class OnboardingController extends Controller
 					
 				      return response()->json([
 					       'status' => true,
-						   'message' =>'Obtained User Detail',
 					       'data' =>$users]);
 					}
 }

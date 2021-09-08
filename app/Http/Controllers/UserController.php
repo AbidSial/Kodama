@@ -74,9 +74,8 @@ class UserController extends Controller
 		    
                     return response()->json([
 						   'status' => true,
-						   'message' => 'Users obtained',
 						   'data' => $users,
-						   
+						   'message' => 'Users obtained'
 						]);
 					 
 	}
@@ -110,9 +109,8 @@ class UserController extends Controller
 					
 				      return response()->json([
 					       'status' => true,
-						   'message' => 'Experience featured',
 					       'data' =>$experience,
-					       
+					       'message' => 'Experience featured',
 					       ]);
 					}
         	
@@ -148,19 +146,47 @@ class UserController extends Controller
 					$profile = DB::table('profiles')->where('user_id', $uid)
 					->select('full_name', 'image_url', 'user_id')
 					->first();
+					$profile->id = $uid;
 					$experience["profile"] = $profile;
 					
 					//get location of experience
 					$locid = $experience["location_id"];
-					$loc = Location::where('location_id', $locid)->first();
+					$loc = $this->getLocation($locid);
 					$experience["location"] = $loc;
+					
+					// get 3 listings added by the same owner
+					$experiencesByOwner = $this->getExperiencesForUser($uid, 3);
+					
 					
 				          return response()->json([
 					         'status' => true,
-					         'data' =>$experience,
+					         'data' =>["experience" =>$experience, "morelistings"=> $experiencesByOwner],
 					         'message' => 'Experience list obtained'
 					         ]);
 			}
+			
+			private function getExperiencesForUser($uid, $count){
+			    $experiences = Experience::where('user_id', $uid)->take(3)->get();
+			    foreach($experiences as $ex){
+			        $exid = $ex->id;
+				 	$images = Listing_Image::where('listing_id', $exid)->get();
+					$ex["images"] = $images;
+					$loc = $this->getLiteLocation($ex->location_id);
+					$ex["location"] = $loc;
+			    }
+			    return $experiences;
+			}
+			
+			public static function getLocation($locid){
+					$loc = Location::where('location_id', $locid)->first();
+					return $loc;
+			}
+			
+			public static function getLiteLocation($locid){
+					$loc = Location::where('location_id', $locid)->first();
+					return ["city"=>$loc->city, "state"=> $loc->state, "location_id" => $loc->location_id];
+			}
 					
 					
-		}
+		}		
+

@@ -9,8 +9,6 @@ use App\Models\Listing_Image;
 use Illuminate\Support\Facades\DB;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
-use Illuminate\Support\Facades\Validator;
-
 
 
 class LocationController extends Controller
@@ -45,24 +43,11 @@ class LocationController extends Controller
 			DB::rollBack();
 			return response()->json([
 			'status' => false,
-			'message'=> 'location not Added',
-			'data' => null]);
+			'message'=> 'location not Added']);
 		}
 	}
 	function getLocation(Request $req)
 	{
-		      $validator=Validator::make($req->all(),[
-			  'off_set'=>'required']);
-			  if($validator->fails())
-			   {
-				  return response()->json(['status'=>false,
-				     'message'=>'Validator error',
-				     'data'=>null,
-				     'Validation_error' => $validator->errors()]);
-			    }
-				$Rows_To_Fectch= 40;
-				$off_set = $req->off_set;
-				$off_set  = $off_set * $Rows_To_Fectch; 
                 try 
 				   {
 
@@ -71,7 +56,6 @@ class LocationController extends Controller
                           return response()->json([
 							'status' => false,
 							'message' => 'user is not found',
-							'data' =>null,
                            ]);							
                             }
 				   } 
@@ -80,7 +64,6 @@ class LocationController extends Controller
 					return response()->json([
 							'status' => false,
 							'message' => 'token is expired',
-							'data' =>null,
                           ]); 
 
                     }
@@ -89,7 +72,6 @@ class LocationController extends Controller
 						return response()->json([
 							'status' => false,
 							'message' => 'token is invalid',
-							'data' => null,
 						]);
                     } 
 					catch (Tymon\JWTAuth\Exceptions\JWTException $e)
@@ -98,14 +80,14 @@ class LocationController extends Controller
                       return response()->json([
 							'status' => false,
 							'message' => 'token is absent',
-							'data' => null,
 						]);      
 
                     }
-				   $location=location::skip($off_set)->take($Rows_To_Fectch)->get();
+				   $page = $req->PageNo;
+				   $offset = ($page - 1) * 10;
+				   $location = location::offset($offset)->limit(10)->get();
 					return response()->json([
 					'status' => true,
-					'message'=>'Location Obtained',
 					'data' =>$location]);
 		    }
 	}

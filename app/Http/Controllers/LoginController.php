@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Profile;
+use App\Models\profile;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
@@ -20,21 +20,19 @@ class LoginController extends Controller
 			{
 				return response()->json([
 				'message' =>'Invalid_Credentials',
-				'status' =>false,
-				'data' => null,
-				]);
+				'status' =>false]);
 			}
 		}
 		Catch (JWTException $e)
 		{
 			return response()->json([
 			'message' => 'Could not create token',
-			'status'=>false,
-			'data' => null,]);
+			'status'=>false]);
 		}
 		 $user= User::where('email', $req->email)->first();
-		 $id=$user->id;
-		 $profile=Profile::where('user_id',$id)->first();
+		 $id = $user->id;
+		 
+		 $profile = profile::where('user_id', $id)->first();
 		 $profile["email"] = $user->email;
 		 $profile["phone"] = $user->phone;
 		 $profile["role"] = $user->role;
